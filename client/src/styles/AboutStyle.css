@@ -3,10 +3,6 @@
     height: 550px;
 }
 
-.profile-content > h3{
-    color: #000065;
-}
-
 .profile-photo{
     height: 500px;
     width: auto;
@@ -40,6 +36,10 @@ sup{
     height: 40px;
     width: auto;
     margin-right: 2em;
+}
+
+#icon-credit{
+    text-align: center;
 }
 
 .credit:link{
