@@ -151,8 +151,7 @@ questions_dict = {
 }
 
 def load():
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    file_path = os.path.join(base_dir, 'data', 'bsa_data.csv')
+    file_path = 'server/my_project/data/bsa_data.csv'
     try:
         data = pd.read_csv(file_path)
     except FileNotFoundError:
