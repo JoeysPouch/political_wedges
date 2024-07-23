@@ -21,7 +21,7 @@ import statsmodels.api as sm
 list_of_topics = ["Finance and Economics", "Workplaces", "Housing and Urban Development", "Gender and Sexual Minorities", 
                 "British Values and Traditions", "Welfare", "Law and Order", "Governance", "Health and Social Care", "Class", "Miscellaneous"]
 
-list_of_scales = [['Strongly Agree', 'Agree', 'Neutral', 'Disagree', 'Strongly Disagree'],
+list_of_scales = [['Strongly \nAgree', 'Agree', 'Neutral', 'Disagree', 'Strongly \nDisagree'],
             ['Support Strongly', 'Support', 'Neither/It Depends', 'Oppose', 'Oppose Strongly'],
             ['Strongly \nin Favour', 'Somewhat \nin Favour', 'Neither', 'Somewhat Against', 'Strongly Against'],
             ["1 - Not at All British", "2", "3", "4", "5", "6", "7 - Very British"], 
