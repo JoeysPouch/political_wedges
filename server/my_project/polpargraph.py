@@ -13,6 +13,7 @@ Date: 20/07/2024
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
+import os
 import pandas as pd
 import statsmodels.api as sm
 
@@ -150,7 +151,8 @@ questions_dict = {
 }
 
 def load():
-    file_path = r"C:\Users\Joeys\Documents\Python\Polarisation_Project\political_wedges\server\my_project\data\bsa_data.csv"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    file_path = os.path.join(base_dir, 'data', 'bsa_data.csv')
     try:
         data = pd.read_csv(file_path)
     except FileNotFoundError:
