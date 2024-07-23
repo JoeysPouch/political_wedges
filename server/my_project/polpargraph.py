@@ -711,7 +711,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     plt.style.use('seaborn')
     plt.figure(figsize=(12,6), facecolor="#b0e0e6")
     plt.gca().set_facecolor("#b0e0e6")
-    plt.title(question, fontsize = 1200/len(question))
+    plt.title(question, fontsize = 950/len(question))
     plt.xlabel("Answer", fontsize = 14)
     plt.ylabel("Cumulative Percentage of Respondents", fontsize = 14)
 
