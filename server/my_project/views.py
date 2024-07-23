@@ -52,7 +52,7 @@ def parallelogram_view(request):
         parallelogram(group_var, group_1_value, group_2_value, question)
 
         buffer = BytesIO()
-        plt.savefig(buffer, format = 'png', dpi=300)
+        plt.savefig(buffer, format = 'png', dpi=150)
         buffer.seek(0)
         graph = base64.b64encode(buffer.read()).decode('utf-8')
 
