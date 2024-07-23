@@ -792,7 +792,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
 
     plt.savefig('redist.png', dpi=300)
 
-    return plt.show()
+    return plt
 
 # Testing
 if __name__ == "__main__":
