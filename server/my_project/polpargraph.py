@@ -27,7 +27,7 @@ list_of_scales = [['Strongly \nAgree', 'Agree', 'Neutral', 'Disagree', 'Strongly
             ["1 - Not at All British", "2", "3", "4", "5", "6", "7 - Very British"], 
             ["0 - \n Extremely \nDissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \nExtremely \nSatisfied"], 
             ["0 \n (Not at All)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 \n (Completely)"], 
-            ["Always Wrong", "Mostly Wrong", "Sometimes \nWrong/\nIt Depends", "Rarely Wrong", "Not Wrong at All"],
+            ["Always Wrong", "Mostly Wrong", "Sometimes Wrong/\nIt Depends", "Rarely Wrong", "Not Wrong at All"],
             ["Gone much too far", "Gone too far", "About right", "Not gone \nfar enough", "Not gone \n nearly far enough"],
             ["0 - \n Extremely Bad", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \n Extremely Good"],
             ["0 - \n Undermines", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \n Enriches"],
@@ -725,7 +725,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
                     )
 
     table.auto_set_font_size(False)
-    table.set_fontsize(8)
+    table.set_fontsize(7.5)
 
     for key, cell in table._cells.items():
         if key[0] == 0:
