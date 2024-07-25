@@ -350,7 +350,7 @@ def table_cols(array_1, array_2, name_1, name_2, scale):
         raise ValueError("Columns of table should all be the same length")
 
     table_data = list(zip(array_3_copy, array_1_copy, array_2_copy))
-    table_data.insert(0, ("", "Matrix", ""))
+    table_data.insert(0, ("", "Data Table", ""))
     return table_data
     
 
@@ -741,26 +741,27 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
             cell.set_linewidth(1)
             cell.set_text_props(fontweight='bold', ha='center', va='center')
 
-    table_data_sig = [["*", "> 95%"], ["**", "> 99%"], ["***", "> 99.9%"]]
-    table_sig = plt.table(cellText = table_data_sig, 
-                          colLabels = ["Asterisks", "Significance"],
-                          cellLoc='center', 
-                          loc='center',
-                          bbox=[1.3, 0, 0.6, 0.25])
-
-
-    for key, cell in table_sig._cells.items():
-        if key[0] == 0:
-            cell.set_facecolor("#b0e0e6")
-            cell.set_text_props(fontsize=14)
-            cell.set_edgecolor('none')
-        else:
-            cell.set_facecolor("#b0e0e6")
-            cell.set_linewidth(1)
-            if len(sig_test[1]) == key[0]:
-                cell.set_text_props(fontweight='bold', ha='center', va='center')
-    table.auto_set_font_size(False)
-    table_sig.set_fontsize(9)
+    if False:
+      table_data_sig = [["*", "> 95%"], ["**", "> 99%"], ["***", "> 99.9%"]]
+      table_sig = plt.table(cellText = table_data_sig, 
+                            colLabels = ["Asterisks", "Significance"],
+                            cellLoc='center', 
+                            loc='center',
+                            bbox=[1.3, 0, 0.6, 0.25])
+  
+  
+      for key, cell in table_sig._cells.items():
+          if key[0] == 0:
+              cell.set_facecolor("#b0e0e6")
+              cell.set_text_props(fontsize=14)
+              cell.set_edgecolor('none')
+          else:
+              cell.set_facecolor("#b0e0e6")
+              cell.set_linewidth(1)
+              if len(sig_test[1]) == key[0]:
+                  cell.set_text_props(fontweight='bold', ha='center', va='center')
+      table.auto_set_font_size(False)
+      table_sig.set_fontsize(9)
 
     # Calculates lambda
     ld = pol_lambda(group_var, group_1_value, group_2_value, issue_var)
