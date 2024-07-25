@@ -728,7 +728,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
                     colLabels=table_data[0],
                     cellLoc='center',
                     loc='center',
-                    bbox=[1.3, 0.3, 0.6.5, 0.8]
+                    bbox=[1.3, 0.3, 0.65, 0.8]
                     )
 
     table.auto_set_font_size(False)
