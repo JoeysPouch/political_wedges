@@ -710,7 +710,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     title_size = 1000/len(question)
     if len(question) > 75:
         if question[round(len(question)/2) + 1] == " ":
-          question = question[:round(len(question)/2) + 1] + " \n" + question[round(len(question)/2) + 1:]
+          question = question[:round(len(question)/2) + 1] + "\n" + question[round(len(question)/2) + 1:]         
         else:
           question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
         title_size *= 2
