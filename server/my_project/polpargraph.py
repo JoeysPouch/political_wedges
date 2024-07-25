@@ -707,11 +707,15 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     n_1 = sig_test[2]
     n_2 = sig_test[3]
 
-    # Builds and adds components of the graph that are not depending on the numerical data
+    title_size = 1000/len(question)
+    if len(question) > 75:
+        question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
+        title_size *= 2
+
     plt.style.use('seaborn')
     plt.figure(figsize=(12,6), facecolor="#b0e0e6")
     plt.gca().set_facecolor("#b0e0e6")
-    plt.title(question, fontsize = 1050/len(question))
+    plt.title(question, fontsize = title_size)
     plt.xlabel("Answer", fontsize = 14)
     plt.ylabel("Cumulative Percentage of Respondents", fontsize = 14)
 
@@ -736,6 +740,27 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
             cell.set_facecolor("#b0e0e6")
             cell.set_linewidth(1)
             cell.set_text_props(fontweight='bold', ha='center', va='center')
+
+    table_data_sig = [["*", "> 95%"], ["**", "> 99%"], ["***", "> 99.9%"]]
+    table_sig = plt.table(cellText = table_data_sig, 
+                          colLabels = ["Asterisks", "Significance"],
+                          cellLoc='center', 
+                          loc='center',
+                          bbox=[1.3, 0, 0.6, 0.25])
+
+
+    for key, cell in table_sig._cells.items():
+        if key[0] == 0:
+            cell.set_facecolor("#b0e0e6")
+            cell.set_text_props(fontsize=14)
+            cell.set_edgecolor('none')
+        else:
+            cell.set_facecolor("#b0e0e6")
+            cell.set_linewidth(1)
+            if len(sig_test[1]) == key[0]:
+                cell.set_text_props(fontweight='bold', ha='center', va='center')
+    table.auto_set_font_size(False)
+    table_sig.set_fontsize(9)
 
     # Calculates lambda
     ld = pol_lambda(group_var, group_1_value, group_2_value, issue_var)
