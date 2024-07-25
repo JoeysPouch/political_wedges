@@ -725,11 +725,11 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
                     colLabels=table_data[0],
                     cellLoc='center',
                     loc='center',
-                    bbox=[1.3, 0.1, 0.6, 0.9]
+                    bbox=[1.25, 0.3, 0.7, 0.8]
                     )
 
     table.auto_set_font_size(False)
-    table.set_fontsize(7.5)
+    table.set_fontsize(7)
 
     for key, cell in table._cells.items():
         if key[0] == 0:
@@ -741,28 +741,29 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
             cell.set_linewidth(1)
             cell.set_text_props(fontweight='bold', ha='center', va='center')
 
-    if False:
-      table_data_sig = [["*", "> 95%"], ["**", "> 99%"], ["***", "> 99.9%"]]
-      table_sig = plt.table(cellText = table_data_sig, 
-                            colLabels = ["Asterisks", "Significance"],
-                            cellLoc='center', 
-                            loc='center',
-                            bbox=[1.3, 0, 0.6, 0.25])
-  
-  
-      for key, cell in table_sig._cells.items():
-          if key[0] == 0:
-              cell.set_facecolor("#b0e0e6")
-              cell.set_text_props(fontsize=14)
-              cell.set_edgecolor('none')
-          else:
-              cell.set_facecolor("#b0e0e6")
-              cell.set_linewidth(1)
-              if len(sig_test[1]) == key[0]:
-                  cell.set_text_props(fontweight='bold', ha='center', va='center')
-      table.auto_set_font_size(False)
-      table_sig.set_fontsize(9)
+    table_data_sig = [["* - <0.05"], ["** - <0.01"], ["*** - <0.001"]]
+    table_sig = plt.table(cellText = table_data_sig, 
+                          colLabels = ["p-value"],
+                          cellLoc='right', 
+                          loc='center',
+                          bbox=[1.25, 0, 0.7, 0.15])
 
+
+    for key, cell in table_sig._cells.items():
+        if key[0] == 0:
+            cell.set_facecolor("#b0e0e6")
+            cell.set_text_props(fontsize=14, ha = 'right')
+            cell.set_edgecolor('none')
+        else:
+            cell.set_facecolor("#b0e0e6")
+            cell.set_linewidth(1)
+            cell.set_edgecolor('none')
+            if len(sig_test[1]) == key[0]:
+                cell.set_text_props(fontweight='bold', ha='right', va='center')
+    table.auto_set_font_size(False)
+    table_sig.set_fontsize(10)
+
+  
     # Calculates lambda
     ld = pol_lambda(group_var, group_1_value, group_2_value, issue_var)
     ld_x_value = 0.5 * (leng-1)
