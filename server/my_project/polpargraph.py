@@ -25,7 +25,7 @@ list_of_scales = [['Strongly \nAgree', 'Agree', 'Neutral', 'Disagree', 'Strongly
             ['Support \nStrongly', 'Support', 'Neither/\nIt Depends', 'Oppose', 'Oppose \nStrongly'],
             ['Strongly \nin Favour', 'Somewhat \nin Favour', 'Neither', 'Somewhat \nAgainst', 'Strongly \nAgainst'],
             ["1 - Not at All British", "2", "3", "4", "5", "6", "7 - Very British"], 
-            ["0 - \n Extremely \nDissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \nExtremely \nSatisfied"], 
+            ["0 - Extremely \nDissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - Extremely \nSatisfied"], 
             ["0 \n (Not at All)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 \n (Completely)"], 
             ["Always Wrong", "Mostly Wrong", "Sometimes Wrong/\nIt Depends", "Rarely Wrong", "Not Wrong at All"],
             ["Gone much too far", "Gone too far", "About right", "Not gone \nfar enough", "Not gone \n nearly far enough"],
