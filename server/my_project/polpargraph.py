@@ -709,7 +709,10 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
 
     title_size = 1000/len(question)
     if len(question) > 75:
-        question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
+        if question[round(len(question)/2) + 1] == " ":
+          question = question[:round(len(question)/2) + 1] + " \n" + question[round(len(question)/2) + 1:]
+        else:
+          question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
         title_size *= 2
 
     plt.style.use('seaborn')
@@ -725,7 +728,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
                     colLabels=table_data[0],
                     cellLoc='center',
                     loc='center',
-                    bbox=[1.25, 0.3, 0.7, 0.8]
+                    bbox=[1.3, 0.3, 0.6.5, 0.8]
                     )
 
     table.auto_set_font_size(False)
@@ -746,7 +749,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
                           colLabels = ["p-value"],
                           cellLoc='right', 
                           loc='center',
-                          bbox=[1.25, 0, 0.7, 0.15])
+                          bbox=[1.3, 0, 0.65, 0.15])
 
 
     for key, cell in table_sig._cells.items():
