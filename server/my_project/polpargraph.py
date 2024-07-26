@@ -127,7 +127,7 @@ questions_dict = {
     "To what extent are you in favour of, or against, closing roads to create pedestrian high streets being introduced in your area?†": ("ClsRd", 2, 2),
     "On a scale of 1 to 7, with 1 being ‘not at all British’, and 7 ‘being very strongly British’, to what extent do you think of yourself as British?": ("BritID2", 3, 4),
     "'The world would be a better place if people from other countries were more like the British'": ("Natlike", 0, 4),
-    "Generally speaking, Britain is a better country than most other countries": ("NatBest", 0, 4),
+    "'Generally speaking, Britain is a better country than most other countries'": ("NatBest", 0, 4),
     "How much do you agree or disagree that a person who is transgender should be able to have the sex recorded on their birth certificate changed if they want?": ("TBirCert", 0, 3),
     "'Around here, most unemployed people could find a job if they really wanted one'": ("UnempJob", 0, 5),
     "'Many people who get social security don't really deserve any help'": ("SocHelp", 0, 5),
