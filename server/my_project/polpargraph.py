@@ -10,32 +10,33 @@ Date: 20/07/2024
 # Data Preparation
 
 # Global Constants
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
-import os
 import pandas as pd
 import statsmodels.api as sm
+from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 
 list_of_topics = ["Finance and Economics", "Workplaces", "Housing and Urban Development", "Gender and Sexual Minorities", 
                 "British Values and Traditions", "Welfare", "Law and Order", "Governance", "Health and Social Care", "Class", "Miscellaneous"]
 
 list_of_scales = [['Strongly \nAgree', 'Agree', 'Neutral', 'Disagree', 'Strongly \nDisagree'],
-            ['Support \nStrongly', 'Support', 'Neither/\nIt Depends', 'Oppose', 'Oppose \nStrongly'],
-            ['Strongly \nin Favour', 'Somewhat \nin Favour', 'Neither', 'Somewhat \nAgainst', 'Strongly \nAgainst'],
+            ['Support Strongly', 'Support', 'Neither/It Depends', 'Oppose', 'Oppose Strongly'],
+            ['Strongly \nin Favour', 'Somewhat \nin Favour', 'Neither', 'Somewhat Against', 'Strongly Against'],
             ["1 - Not at All British", "2", "3", "4", "5", "6", "7 - Very British"], 
-            ["0 - Extremely \nDissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - Extremely \nSatisfied"], 
+            ["0 - \n Extremely Dissatisfied", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \nExtremely Satisfied"], 
             ["0 \n (Not at All)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 \n (Completely)"], 
-            ["Always Wrong", "Mostly Wrong", "Sometimes Wrong/\nIt Depends", "Rarely Wrong", "Not Wrong at All"],
-            ["Gone much too far", "Gone too far", "About right", "Not gone \nfar enough", "Not gone \n nearly far enough"],
+            ["Always Wrong", "Mostly Wrong", "Sometimes Wrong/\nIt Depends", "Rarely Wrong", "Not Wrong \nat All"],
+            ["Gone much \ntoo far", "Gone too far", "About right", "Not gone \nfar enough", "Not gone \n nearly far enough"],
             ["0 - \n Extremely Bad", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \n Extremely Good"],
             ["0 - \n Undermines", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 - \n Enriches"],
             ["Very important", "Quite important", "Not very \nimportant", "Not at all \nimportant"],
             ["Very wide", "Fairly wide", "Not very wide", "No difference†"],
-            ["Very \ndifficult", "Fairly \ndifficult", "Not very \ndifficult"],
-            ["Greater \ndifferences", "About \nthe same", "Less \ndifferences"],
-            ["Spend \nmuch more", "Spend more", "Spend the same \n as now", "Spend less", "Spend \nmuch less"]]
+            ["Very difficult", "Fairly difficult", "Not very difficult"],
+            ["Greater differences", "About the same", "Less differences"],
+            ["Spend much more", "Spend more", "Spend the same \n as now", "Spend less", "Spend much less"]]
 
 colour_dic = {
     'AgeGroup': {
@@ -127,7 +128,7 @@ questions_dict = {
     "To what extent are you in favour of, or against, closing roads to create pedestrian high streets being introduced in your area?†": ("ClsRd", 2, 2),
     "On a scale of 1 to 7, with 1 being ‘not at all British’, and 7 ‘being very strongly British’, to what extent do you think of yourself as British?": ("BritID2", 3, 4),
     "'The world would be a better place if people from other countries were more like the British'": ("Natlike", 0, 4),
-    "'Generally speaking, Britain is a better country than most other countries'": ("NatBest", 0, 4),
+    "Generally speaking, Britain is a better country than most other countries": ("NatBest", 0, 4),
     "How much do you agree or disagree that a person who is transgender should be able to have the sex recorded on their birth certificate changed if they want?": ("TBirCert", 0, 3),
     "'Around here, most unemployed people could find a job if they really wanted one'": ("UnempJob", 0, 5),
     "'Many people who get social security don't really deserve any help'": ("SocHelp", 0, 5),
@@ -151,14 +152,13 @@ questions_dict = {
 }
 
 def load():
-    file_path = 'server/my_project/data/bsa_data.csv'
+    file_path = r"C:\Users\Joeys\OneDrive\Documents\Python\Polarisation_Project\political_wedges\server\my_project\data\bsa_data_1.csv"
     try:
         data = pd.read_csv(file_path)
     except FileNotFoundError:
         raise FileNotFoundError(f"Error: The file at {file_path} could not be found.")
     except pd.errors.ParserError:
         raise pd.errors.ParserError(f"Error: The file could not be parsed")
-    
     data = data.fillna(0)
     data = data.astype(int)
     return data
@@ -488,13 +488,13 @@ def get_pol_level(ld):
     """
     try:
         if ld >= 40:
-            pol = 'extreme'
+            pol = 'EXTREME'
         elif ld >= 25:
-            pol = 'high'
+            pol = 'HIGH'
         elif ld >= 10:
-            pol = 'moderate'
+            pol = 'MODERATE'
         else:
-            pol = 'low'
+            pol = 'LOW'
     except TypeError:
         raise TypeError("Lambda should be a number")
     return pol
@@ -707,49 +707,65 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     n_1 = sig_test[2]
     n_2 = sig_test[3]
 
+    # Builds and adds components of the graph that are not depending on the numerical data
     title_size = 1000/len(question)
-    if len(question) > 100:
-        if question[round(len(question)/2)] == " " or question[round(len(question)/2) + 1] == " ":
-          question = question[:round(len(question)/2) + 1] + "\n" + question[round(len(question)/2) + 1:]
-        else:
-          question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
+    if len(question) > 90:
+        question = question[:round(len(question)/2) + 1] + "-\n" + question[round(len(question)/2) + 1:]
         title_size *= 2
+        title_size = min(title_size, 16)
 
     plt.style.use('seaborn')
-    plt.figure(figsize=(12,6), facecolor="#b0e0e6")
+    plt.figure(figsize=(16,6), facecolor="#b0e0e6")
     plt.gca().set_facecolor("#b0e0e6")
     plt.title(question, fontsize = title_size)
     plt.xlabel("Answer", fontsize = 14)
     plt.ylabel("Cumulative Percentage of Respondents", fontsize = 14)
 
     # Builds Table
+    if False:
+        table = plt.table(cellText=table_data[1:],
+                        colLabels=table_data[0],
+                        cellLoc='center',
+                        loc='center',
+                        bbox=[1.25, 0.3, 0.7, 0.8]
+                        )
 
-    table = plt.table(cellText=table_data[1:],
-                    colLabels=table_data[0],
-                    cellLoc='center',
-                    loc='center',
-                    bbox=[1.3, 0.3, 0.65, 0.8]
-                    )
+        table.auto_set_font_size(False)
+        table.set_fontsize(7)
 
-    table.auto_set_font_size(False)
-    table.set_fontsize(7)
+        for key, cell in table._cells.items():
+            if key[0] == 0:
+                cell.set_facecolor("#b0e0e6")
+                cell.set_text_props(fontsize=14)
+                cell.set_edgecolor('none')
+            else:
+                cell.set_facecolor("#b0e0e6")
+                cell.set_linewidth(1)
+                cell.set_text_props(fontweight='bold', ha='center', va='center')
 
-    for key, cell in table._cells.items():
-        if key[0] == 0:
-            cell.set_facecolor("#b0e0e6")
-            cell.set_text_props(fontsize=14)
-            cell.set_edgecolor('none')
-        else:
-            cell.set_facecolor("#b0e0e6")
-            cell.set_linewidth(1)
-            cell.set_text_props(fontweight='bold', ha='center', va='center')
+        
 
+    # Builds Bar Graph
+    bar_ax = plt.gca().inset_axes([1.35, 0.5, 0.8, 0.45])
+    range_array = np.array(range(1, leng))
+    bar_ax.set_xticks(range_array)
+    bar_ax.bar(range_array - 0.2, 100 * array_1[1:]/sum(array_1), width = 0.4, color=colour_G1, edgecolor = "black", label = group_1_name)
+    bar_ax.bar(range_array + 0.2, 100 * array_2[1:]/sum(array_2), width = 0.4, color=colour_G2, edgecolor = "black", label = group_2_name)
+    bar_ax.set_title(f"Distribution of Answers")
+    bar_ax.set_xticklabels(custom_labels[1:], fontsize = 7.5)
+    bar_ax.set_facecolor("#b0e0e6")
+    bar_ax.set_xlabel("Answer", fontsize = 10)
+    bar_ax.set_ylabel("Percentage of Respondents", fontsize = 14)
+    bar_ax.legend(loc = 'lower right', fontsize = 10, bbox_to_anchor=(1, -0.55))
+ 
+
+    # Builds P Value Table
     table_data_sig = [["* - <0.05"], ["** - <0.01"], ["*** - <0.001"]]
     table_sig = plt.table(cellText = table_data_sig, 
-                          colLabels = ["p-value"],
-                          cellLoc='right', 
-                          loc='center',
-                          bbox=[1.3, 0, 0.65, 0.15])
+                            colLabels = ["p-value"],
+                            cellLoc='right', 
+                            loc='center',
+                            bbox=[1.45, 0, 0.7, 0.15])
 
 
     for key, cell in table_sig._cells.items():
@@ -763,17 +779,20 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
             cell.set_edgecolor('none')
             if len(sig_test[1]) == key[0]:
                 cell.set_text_props(fontweight='bold', ha='right', va='center')
-    table.auto_set_font_size(False)
     table_sig.set_fontsize(10)
 
-  
+
     # Calculates lambda
     ld = pol_lambda(group_var, group_1_value, group_2_value, issue_var)
     ld_x_value = 0.5 * (leng-1)
 
-    #Places Lambda Figure
+    # Places Lambda Figure
+    # For Original:
+
     plt.text(lambda_positioning(leng, ld_x_value, y1, y2)[0], lambda_positioning(leng, ld_x_value, y1, y2)[1], f'\n$\\mathbf{{{round(ld, 2)}\%}}${sig_test[1]}', fontsize=10, color = 'black', ha = 'center', va = 'center')
 
+    # For Variations
+    pol = get_pol_level(ld)
     # If a list of labels equal to the number of x points on the graph is specified, this adds the labels
 
     if custom_labels:
@@ -786,7 +805,7 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     #Plots the lines of the graph
     plt.plot(y1, 'o' + "-", color = colour_G1, linewidth = 3, label = group_1_name)
     plt.plot(y2, 'o' + "-", color = colour_G2, linewidth = 3, label = group_2_name)
-    plt.legend(loc = 'lower right', fontsize = 10, bbox_to_anchor=(1.1, 0.03))
+    plt.legend(loc = 'lower right', fontsize = 10, bbox_to_anchor=(1.2, 0.08))
 
     #Fills in the different parts of the graph
     fill = fill_in(y1, y2, ld)
@@ -808,7 +827,6 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
             bbox=dict(facecolor='red', alpha=0.5, edgecolor='red', boxstyle='round,pad=0.3'), ha = 'left', va = 'center', fontsize = 8)
 
 
-    pol = get_pol_level(ld)
     plt.text(leng-0.9, 30, f'There is $\\mathbf{{{pol}}}$ \npolarisation on this \nquestion between the \ngroups specified', \
         bbox=dict(facecolor=fill[3], alpha=0.5, boxstyle='round,pad=0.3'), ha = 'left', va = 'center', fontsize = 8)
 
@@ -817,17 +835,32 @@ def parallelogram(group_var, group_1_value, group_2_value, question):
     shape = patches.Polygon(vertices, closed=True, edgecolor='black', facecolor = 'none', linestyle='--', linewidth = 1.5)
     plt.gca().add_patch(shape)
 
+
+    # Creates Colour Legend
+    colour_labels = ["= Low (0-10%)", "= Moderate (10-25%)", "= High (25-40%)", "= Extreme (40+%)"]
+    colours = ['#99ff99', '#ffff99', '#ffcc99', '#ff9999']
+    squares = []
+    for colour, label in zip(colours, colour_labels):
+        square = patches.Patch(color = colour, label = label)
+        squares.append(square)
+
+    legend_ax = plt.axes([0.34, 0.08, 0.38, 0.5]) 
+    legend_ax.axis('off')
+    plt.legend(handles=squares, title = "Polarisation Classes", loc = 'lower right', fontsize = 10)
+ 
+
+
     # Amends size to fit extras
-    plt.subplots_adjust(right=0.55)
+    plt.subplots_adjust(right=0.5)
     plt.subplots_adjust(left=0.1)
 
-    plt.savefig('redist.png', dpi=300)
+    plt.savefig('Low_3', dpi=300)
 
-    return plt
+    return plt.show()
 
 # Testing
 if __name__ == "__main__":
-    parallelogram('Religion', 1, 6, "Would you say that Britain's cultural life is generally undermined or enriched by migrants coming to live here from other countries?")
+    parallelogram('partyfw', 5, 7, "'Around here, most unemployed people could find a job if they really wanted one'")
 
 
     
